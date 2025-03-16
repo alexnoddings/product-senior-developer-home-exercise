@@ -53,7 +53,7 @@ public class PeopleRepository_UpdateAsync_Tests
     {
         // Arrange
         var personId = 1;
-        var newTodo = new Person
+        var newPerson = new Person
         {
             Id = personId,
             FirstName = "old first",
@@ -61,7 +61,7 @@ public class PeopleRepository_UpdateAsync_Tests
             DateOfBirth = DateOnly.FromDateTime(DateTime.Parse("2001-02-03")),
             DepartmentId = 1
         };
-        await CreatePersonAsync(newTodo);
+        await CreatePersonAsync(newPerson);
         
         await using var dbContext = CreateDbContext();
         var repo = new PeopleRepository(dbContext);

@@ -9,6 +9,7 @@ public class Person
 
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;
+    public string Email { get; set; } = string.Empty;
     public DateOnly DateOfBirth { get; set; }
     
     public int DepartmentId { get; set; }
@@ -33,6 +34,11 @@ public class PersonEntityTypeConfiguration : IEntityTypeConfiguration<Person>
             .HasMaxLength(PersonConstraints.LastName_MaxLength);
         
         builder
+            .Property(x => x.Email)
+            .IsRequired()
+            .HasMaxLength(PersonConstraints.Email_MaxLength);
+        
+        builder
             .HasOne(x => x.Department)
             .WithMany(x => x.People)
             .HasForeignKey(x => x.DepartmentId)
@@ -40,11 +46,11 @@ public class PersonEntityTypeConfiguration : IEntityTypeConfiguration<Person>
             .IsRequired();
         
         builder.HasData(
-            new Person { Id = 1, DepartmentId = 1, FirstName = "Gordon", LastName = "Freeman", DateOfBirth = DateOnly.Parse("1990-03-16") },
-            new Person { Id = 2, DepartmentId = 1, FirstName = "Daniel", LastName = "Jackson", DateOfBirth = DateOnly.Parse("1990-03-16") },
-            new Person { Id = 3, DepartmentId = 2, FirstName = "Molly", LastName = "Rankin", DateOfBirth = DateOnly.Parse("1990-03-16") },
-            new Person { Id = 4, DepartmentId = 2, FirstName = "Stu", LastName = "Mackenzie", DateOfBirth = DateOnly.Parse("1990-03-16") },
-            new Person { Id = 5, DepartmentId = 2, FirstName = "Liz", LastName = "Stokes", DateOfBirth = DateOnly.Parse("1990-03-16") }
+            new Person { Id = 1, DepartmentId = 1, FirstName = "Gordon", LastName = "Freeman", Email = "gfreeman@bm.com", DateOfBirth = DateOnly.Parse("1990-03-16") },
+            new Person { Id = 2, DepartmentId = 1, FirstName = "Daniel", LastName = "Jackson", Email = "danjackson@sgc.gov", DateOfBirth = DateOnly.Parse("1990-03-16") },
+            new Person { Id = 3, DepartmentId = 2, FirstName = "Molly", LastName = "Rankin", Email = "mrankin@aol.com", DateOfBirth = DateOnly.Parse("1990-03-16") },
+            new Person { Id = 4, DepartmentId = 2, FirstName = "Stu", LastName = "Mackenzie", Email = "stumac@yahoomail.com", DateOfBirth = DateOnly.Parse("1990-03-16") },
+            new Person { Id = 5, DepartmentId = 2, FirstName = "Liz", LastName = "Stokes", Email = "thebeth@hotmail.co.nz", DateOfBirth = DateOnly.Parse("1990-03-16") }
         );
     }
 }

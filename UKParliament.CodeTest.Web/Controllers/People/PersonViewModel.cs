@@ -7,6 +7,7 @@ public record PersonViewModel(
     int Id,
     string FirstName,
     string LastName,
+    string Email,
     DateOnly DateOfBirth,
     DepartmentViewModel Department
 )
@@ -14,6 +15,6 @@ public record PersonViewModel(
     public static PersonViewModel From(PersonModel model)
     {
         var department = new DepartmentViewModel(model.Department.Id, model.Department.Name);
-        return new(model.Id, model.FirstName, model.LastName, model.DateOfBirth, department);
+        return new(model.Id, model.FirstName, model.LastName, model.Email, model.DateOfBirth, department);
     }
 }

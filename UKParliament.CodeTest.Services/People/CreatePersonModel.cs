@@ -5,6 +5,7 @@ namespace UKParliament.CodeTest.Services.People;
 public record CreatePersonModel(
     string FirstName,
     string LastName,
+    string Email,
     DateOnly DateOfBirth,
     int DepartmentId
 )
@@ -14,6 +15,7 @@ public record CreatePersonModel(
         {
             FirstName = FirstName,
             LastName = LastName,
+            Email = Email,
             DateOfBirth = DateOfBirth,
             DepartmentId = DepartmentId
         };

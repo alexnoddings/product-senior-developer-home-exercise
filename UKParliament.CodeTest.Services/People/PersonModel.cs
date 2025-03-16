@@ -6,6 +6,7 @@ public record PersonModel(
     int Id,
     string FirstName,
     string LastName,
+    string Email,
     DateOnly DateOfBirth,
     PersonDepartmentModel Department
 )
@@ -18,7 +19,7 @@ public record PersonModel(
     internal static PersonModel From(Person person)
     {
         var department = PersonDepartmentModel.From(person.Department);
-        return new(person.Id, person.FirstName, person.LastName, person.DateOfBirth, department);
+        return new(person.Id, person.FirstName, person.LastName, person.Email, person.DateOfBirth, department);
     }
 }
 

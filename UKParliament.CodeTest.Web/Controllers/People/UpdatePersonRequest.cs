@@ -11,6 +11,7 @@ public class UpdatePersonRequest
 {
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
+    public string? Email { get; set; }
     public string? DateOfBirth { get; set; }
     public int DepartmentId { get; set; }
     
@@ -19,7 +20,7 @@ public class UpdatePersonRequest
     internal UpdatePersonModel ToModel()
     {
         var dob = DateOnly.Parse(DateOfBirth!);
-        return new(FirstName!, LastName!, dob, DepartmentId);
+        return new(FirstName!, LastName!, Email!, dob, DepartmentId);
     }
 }
 
@@ -29,6 +30,7 @@ public class UpdatePersonRequestValidator : AbstractValidator<UpdatePersonReques
     {
         RuleFor(x => x.FirstName).NotEmpty().MaximumLength(PersonConstraints.FirstName_MaxLength);
         RuleFor(x => x.LastName).NotEmpty().MaximumLength(PersonConstraints.LastName_MaxLength);
+        RuleFor(x => x.Email).NotEmpty().EmailAddress();
         RuleFor(x => x.DepartmentId).NotEmpty();
 
         RuleFor(x => x.DateOfBirth)

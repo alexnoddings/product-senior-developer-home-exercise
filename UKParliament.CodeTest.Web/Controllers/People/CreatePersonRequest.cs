@@ -1,4 +1,5 @@
 using FluentValidation;
+using FluentValidation.Validators;
 using UKParliament.CodeTest.Data;
 using UKParliament.CodeTest.Services.People;
 
@@ -8,6 +9,7 @@ public class CreatePersonRequest
 {
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
+    public string? Email { get; set; }
     public string? DateOfBirth { get; set; }
     public int DepartmentId { get; set; }
     
@@ -16,7 +18,7 @@ public class CreatePersonRequest
     internal CreatePersonModel ToModel()
     {
         var dob = DateOnly.Parse(DateOfBirth!);
-        return new(FirstName!, LastName!, dob, DepartmentId);
+        return new(FirstName!, LastName!, Email!, dob, DepartmentId);
     }
 }
 
@@ -26,8 +28,12 @@ public class CreatePersonRequestValidator : AbstractValidator<CreatePersonReques
     {
         RuleFor(x => x.FirstName).NotEmpty().MaximumLength(PersonConstraints.FirstName_MaxLength);
         RuleFor(x => x.LastName).NotEmpty().MaximumLength(PersonConstraints.LastName_MaxLength);
+        // Default FluentValidation email validation is *very* lax, and only cares about having an @
+        RuleFor(x => x.Email).NotEmpty().EmailAddress();
         RuleFor(x => x.DepartmentId).NotEmpty();
 
+        // This is complex enough that it should probably be pulled into a custom validation extension method:
+        // https://docs.fluentvalidation.net/en/latest/custom-validators.html
         RuleFor(x => x.DateOfBirth)
             .Must(str =>
                 DateOnly.TryParse(str, out var dob)

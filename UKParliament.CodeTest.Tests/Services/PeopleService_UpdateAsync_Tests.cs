@@ -39,7 +39,7 @@ public class PeopleService_UpdateAsync_Tests
             .Returns(Task.FromResult<Person?>(null));
 
         var service = new PeopleService(repo);
-        var personModel = new UpdatePersonModel("First", "Last", DateOfBirth, 1);
+        var personModel = new UpdatePersonModel("First", "Last", "first.last@dom.ain", DateOfBirth, 1);
         
         // Act
         var wasUpdated = await service.UpdateAsync(missingPersonId, personModel);
@@ -84,7 +84,7 @@ public class PeopleService_UpdateAsync_Tests
         var service = new PeopleService(repo);
         
         // Act
-        var person = new UpdatePersonModel("Updated First", "Updated Last", DateOfBirth.AddDays(5), 2);
+        var person = new UpdatePersonModel("Updated First", "Updated Last", "updated@new.domain", DateOfBirth.AddDays(5), 2);
         var wasUpdated = await service.UpdateAsync(personId, person);
         
         // Assert

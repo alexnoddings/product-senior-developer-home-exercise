@@ -9,6 +9,7 @@ namespace UKParliament.CodeTest.Services.People;
 public record UpdatePersonModel(
     string FirstName,
     string LastName,
+    string Email,
     DateOnly DateOfBirth,
     int DepartmentId
 )
@@ -18,6 +19,7 @@ public record UpdatePersonModel(
         {
             FirstName = FirstName,
             LastName = LastName,
+            Email = Email,
             DateOfBirth = DateOfBirth,
             DepartmentId = DepartmentId
         };
