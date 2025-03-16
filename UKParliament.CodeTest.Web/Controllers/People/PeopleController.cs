@@ -58,12 +58,17 @@ public class PeopleController : ControllerBase
             return Results.ValidationProblem(errors);
         }
         
+        // Assumed that many users can use the same email (ie duplication is allowed)
+        // as the spec doesn't specify otherwise.
+        
         var model = request.ToModel();
         var id = await _people.CreateAsync(model);
         return Results.Created($"/api/person/{id}", id);
     }
 
-    [HttpPost("{id:int}")]
+    // Uses HTTP Put since subsequent calls don't produce any side effects,
+    // i.e. 1 or N calls with the same payload will create the same result.
+    [HttpPut("{id:int}")]
     [Validate<UpdatePersonRequest>(nameof(request))]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest)]
