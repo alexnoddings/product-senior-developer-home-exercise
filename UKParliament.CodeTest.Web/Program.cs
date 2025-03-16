@@ -1,6 +1,8 @@
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using UKParliament.CodeTest.Data;
 using UKParliament.CodeTest.Services;
+using UKParliament.CodeTest.Web.Controllers.People;
 
 namespace UKParliament.CodeTest.Web;
 
@@ -10,14 +12,20 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        // Add services to the container.
-
         builder.Services.AddControllersWithViews();
 
-        builder.Services.AddDbContext<PersonManagerContext>(op => op.UseInMemoryDatabase("PersonManager"));
+        builder.Services.AddDbContext<PersonManagerContext>(
+            op => op.UseInMemoryDatabase("PersonManager")
+        );
 
-        builder.Services.AddScoped<IPersonService, PersonService>();
-
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
+        
+        builder.Services.AddValidatorsFromAssemblyContaining<CreatePersonRequestValidator>();
+        builder.Services
+            .AddPersonManagerDataServices()
+            .AddPersonManagerServices();
+        
         var app = builder.Build();
 
         // Create database so the data seeds
@@ -27,10 +35,13 @@ public class Program
             context.Database.EnsureCreated();
         }
 
-        // Configure the HTTP request pipeline.
-        if (!app.Environment.IsDevelopment())
+        if (app.Environment.IsDevelopment())
         {
-            // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+            // Not required for the test, but very useful to auto import API into Postman for dev/testing
+            app.UseSwagger();
+        }
+        else
+        {
             app.UseHsts();
         }
 

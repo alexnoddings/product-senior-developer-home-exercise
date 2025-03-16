@@ -3,6 +3,7 @@ using UKParliament.CodeTest.Data;
 namespace UKParliament.CodeTest.Services.People;
 
 public record PersonModel(
+    int Id,
     string FirstName,
     string LastName,
     DateOnly DateOfBirth,
@@ -17,7 +18,7 @@ public record PersonModel(
     internal static PersonModel From(Person person)
     {
         var department = PersonDepartmentModel.From(person.Department);
-        return new(person.FirstName, person.LastName, person.DateOfBirth, department);
+        return new(person.Id, person.FirstName, person.LastName, person.DateOfBirth, department);
     }
 }
 
