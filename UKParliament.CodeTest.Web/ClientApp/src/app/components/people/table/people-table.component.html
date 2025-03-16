@@ -1,0 +1,87 @@
+<!--
+  This isn't going to win any awards for beauty on smaller screens (eg mobiles).
+  It's perfectly functional though - the editor wraps, and columns progressively disappear as the screen size narrows.
+  It's not a perfect solution, but it's a good enough solution for doing this test I think.
+-->
+<table class="table w-full mb-2">
+  <caption>
+    <div class="flex gap-2 items-start">
+      <h1>
+        People
+      </h1>
+      <div class="block lg:hidden text-gray-600 text-start ms-2">
+        <p>
+          Hidden:
+        </p>
+        <p class="block md:hidden">
+          - emails
+        </p>
+        <p class="block lg:hidden">
+          - dates of birth
+        </p>
+        <p class="block sm:hidden">
+          - departments
+        </p>
+      </div>
+      <button class="button ms-auto text-sm" (click)="addPerson()">
+        + Add
+      </button>
+    </div>
+  </caption>
+  <thead>
+  <tr>
+    <th>Id</th>
+    <th>Name</th>
+    <th class="hidden md:table-cell">Email</th>
+    <th class="hidden lg:table-cell">Date of Birth</th>
+    <th class="hidden sm:table-cell">Department</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+    @if (people$ | async; as people) {
+      @for (person of people; track person.id) {
+        <tr>
+          <td>
+            {{ person.id }}
+          </td>
+          <td>
+            {{ person.firstName }} {{ person.lastName }}
+          </td>
+          <td class="hidden md:table-cell">
+            {{ person.email }}
+          </td>
+          <td class="hidden lg:table-cell">
+            {{ person.dateOfBirth.toString() }}
+          </td>
+          <td class="hidden sm:table-cell">
+            {{ person.department.name }}
+          </td>
+          <td>
+            <button class="button text-sm me-2" (click)="select(person)">
+              edit
+            </button>
+            <button class="button button-danger text-sm" (click)="deletePerson(person)">
+              delete
+            </button>
+          </td>
+        </tr>
+      }
+    } @else {
+      <!--
+        The table flashes a bit while loading.
+        Because it no longer has content it'll shrink to show "Loading...",
+        then grow again once it has content.
+        It's a bit ugly, but not a huge priority for the scope of this test imo.
+      -->
+      <tr>
+        <td colspan="6">
+          <div class="text-center">
+            Loading...
+          </div>
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>
+

@@ -1,0 +1,7 @@
+@if (person != undefined) {
+  <app-person-editor-form [person]="person" (saved)="save($event)" (cancelled)="cancel()"/>
+}
+
+@if (error != undefined) {
+  <app-errors-outlet [error]="error"/>
+}

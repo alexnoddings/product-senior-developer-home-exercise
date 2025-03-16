@@ -1,0 +1,18 @@
+@if (error(); as problemDetails) {
+  <!-- This is a big ugly/cramped with the max width, could really do with redesigning to outlet errors somewhere wider -->
+  <ul class="errors px-2 py-1 mt-2 bg-red-100 text-red-800 max-w-[210px] flex flex-col gap-1">
+    <li class="font-bold">
+      {{problemDetails.title}}
+    </li>
+    @if (problemDetails.detail != undefined) {
+      <li class="font-bold">{{problemDetails.detail}}</li>
+    }
+    @if (problemDetails.errors != undefined) {
+      @for (error of problemDetails.errors | keyvalue; track error.key) {
+        @for (innerError of error.value; track innerError) {
+          <li>{{innerError}}</li>
+        }
+      }
+    }
+  </ul>
+}

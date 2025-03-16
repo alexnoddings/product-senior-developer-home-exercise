@@ -1,0 +1,48 @@
+@if (departments$ | async; as departments) {
+  <form class="form mt-2 flex flex-col gap-2" [formGroup]="personForm" (ngSubmit)="save()">
+
+    <!-- styling done with classes rather than straight HTML elements so the select/loading can use them easily -->
+    <div>
+      <label class="form-label" for="first-name">First name</label>
+      <input class="form-input" id="first-name" required type="text" formControlName="firstName"/>
+    </div>
+
+    <div>
+      <label class="form-label" for="last-name">Last name</label>
+      <input class="form-input" id="last-name" required type="text" formControlName="lastName"/>
+    </div>
+
+    <div>
+      <label class="form-label" for="email">Email</label>
+      <input class="form-input" id="email" required type="email" formControlName="email"/>
+    </div>
+
+    <div>
+      <label class="form-label" for="date-of-birth">Date of birth</label>
+      <input class="form-input" id="date-of-birth" required type="date" formControlName="dateOfBirth"/>
+    </div>
+
+    <div>
+      <label class="form-label" for="department-id">Department</label>
+      <select class="form-input" id="department-id" required formControlName="departmentId">
+        <!-- Hide the 'unselected' option after a value has been selected -->
+        @if (personForm.value.departmentId == undefined) {
+          <option value=""></option>
+        }
+        @for (department of departments; track department.id) {
+          <option value="{{department.id}}">{{ department.name }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="ms-auto mt-1 flex gap-3">
+      <button class="button button-danger" (click)="cancel()">Cancel</button>
+      <button class="button" type="submit" [disabled]="!personForm.valid">Save</button>
+    </div>
+
+    <!-- invalid fields are just highlighted in red - this should really give a more detailed error message -->
+
+  </form>
+} @else {
+  <app-person-editor-empty/>
+}

@@ -1,0 +1,26 @@
+.form {
+  .form-label {
+    @apply block text-sm font-bold text-gray-800;
+    @apply ms-1;
+  }
+
+  /* done as classes rather than html elements so they're reusable */
+  .form-input {
+    @apply bg-purple-50 text-purple-dark rounded-md px-2 py-1;
+    @apply w-full;
+    @apply border border-purple-pale focus:ring-purple-600 focus:border-purple-600;
+  }
+
+  .form-input.ng-touched.ng-invalid {
+    @apply border-red-600;
+  }
+
+  .form-input[disabled] {
+    @apply bg-grey cursor-not-allowed;
+  }
+}
+
+.form-label:has(+ .form-input:required):after {
+  @apply text-red-900 ms-0.5;
+  content: '*';
+}

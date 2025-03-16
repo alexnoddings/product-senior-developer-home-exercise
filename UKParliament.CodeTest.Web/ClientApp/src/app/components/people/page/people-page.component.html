@@ -1,0 +1,31 @@
+<div class="mx-auto flex flex-row flex-wrap gap-4 justify-center">
+
+  <!-- People table -->
+  <div class="card h-max">
+    <app-people-table [(selectedPersonId)]="selectedPersonId" [peopleUpdated]="peopleUpdated.asObservable()"
+                      (personSelected)="selectPerson($event)"/>
+  </div>
+
+  <!-- Person editor -->
+  <div class="card h-max flex-grow-0 shrink-0">
+    @if (selectedPersonId == undefined) {
+      <!-- Empty, placeholder content to avoid the page moving around when de/selecting -->
+      <div class="text-lg pb-1 border-b border-dotted border-purple-dark ">
+        &nbsp;
+      </div>
+      <app-person-editor-empty/>
+    } @else if (selectedPersonId == 'new') {
+      <h1 class="text-purple-dark text-lg pb-1 border-b border-dotted border-purple-dark">
+        Add person
+      </h1>
+      <app-person-editor-new (saved)="onPersonAdded($event)" (cancelled)="onPersonAddEditCancelled()"/>
+    } @else {
+      <h1 class="text-purple-dark text-lg pb-1 border-b border-dotted border-purple-dark">
+        Edit person
+      </h1>
+      <app-person-editor-existing [personId]="selectedPersonId" (saved)="onPersonUpdated($event)"
+                                  (cancelled)="onPersonAddEditCancelled()"/>
+    }
+  </div>
+
+</div>
