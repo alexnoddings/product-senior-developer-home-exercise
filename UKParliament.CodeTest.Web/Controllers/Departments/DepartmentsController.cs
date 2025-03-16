@@ -19,7 +19,7 @@ public class DepartmentsController : ControllerBase
     public async Task<IResult> GetAllAsync()
     {
         var models = await _departments.GetAllAsync();
-        var viewModels = models.Select(DepartmentViewModel.From);
+        var viewModels = models.Select(DepartmentViewModel.From).OrderBy(d => d.Name);
         return Results.Ok(viewModels);
     }
 }

@@ -36,7 +36,8 @@ public class PeopleController : ControllerBase
     public async Task<IResult> GetAllAsync()
     {
         var models = await _people.GetAllAsync();
-        var viewModels = models.Select(PersonViewModel.From);
+        // Let the controller decide how it wants to order data for presentation
+        var viewModels = models.Select(PersonViewModel.From).OrderBy(p => p.DateOfBirth);
         return Results.Ok(viewModels);
     }
     
