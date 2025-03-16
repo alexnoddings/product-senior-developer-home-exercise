@@ -12,12 +12,8 @@ public class PersonManagerContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-
-        modelBuilder.Entity<Department>().HasData(
-            new Department { Id = 1, Name = "Sales" },
-            new Department { Id = 2, Name = "Marketing" },
-            new Department { Id = 3, Name = "Finance" },
-            new Department { Id = 4, Name = "HR" });
+        
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(PersonManagerContext).Assembly);
     }
 
     public DbSet<Person> People { get; set; }
